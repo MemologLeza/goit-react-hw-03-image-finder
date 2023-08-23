@@ -8,7 +8,11 @@ class Searchbar extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    this.props.handleSearch(e.target[1].value);
+    this.props.handleSearch(this.state.value);
+    this.setState({ value: '' });
+  };
+  handleChange = ({ target: { value } }) => {
+    this.setState({ value: value });
   };
   render() {
     return (
@@ -23,6 +27,8 @@ class Searchbar extends Component {
           </button>
 
           <input
+            onChange={this.handleChange}
+            value={this.state.value}
             className={styled.input}
             type="search"
             autoComplete="off"

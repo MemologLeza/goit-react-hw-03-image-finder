@@ -17,9 +17,6 @@ class App extends Component {
     error: '',
   };
   componentDidUpdate(_, prevState) {
-    if (prevState.searchQuery !== this.state.searchQuery) {
-      this.setState({ imgs: [] });
-    }
     if (
       prevState.page !== this.state.page ||
       prevState.searchQuery !== this.state.searchQuery
@@ -28,7 +25,7 @@ class App extends Component {
     }
   }
   handleSearch = query => {
-    this.setState({ searchQuery: query });
+    this.setState({ searchQuery: query, imgs: [], page: 1 });
   };
   handleSearchImg = async () => {
     try {
@@ -37,8 +34,14 @@ class App extends Component {
         this.state.searchQuery,
         this.state.page
       );
+
+      const newData = data.hits.map(item => ({
+        id: item.id,
+        largeImageURL: item.largeImageURL,
+        webformatURL: item.webformatURL,
+      }));
       this.setState(prevState => ({
-        imgs: [...prevState.imgs, ...data.hits],
+        imgs: [...prevState.imgs, ...newData],
         isLoading: false,
         total: data.total,
       }));
@@ -83,13 +86,6 @@ class App extends Component {
           <ButtonLoadMore handleClickLoadMore={this.handleClickLoadMore} />
         )}
         {showModal && <Modal img={selectedImg} onClose={this.closeModal} />}
-        {/*
-        <Searchbar>,
-         <ImageGallery>,
-          <ImageGalleryItem>,
-           <Loader>,
-            <Button>
-             і <Modal> */}
       </div>
     );
   }

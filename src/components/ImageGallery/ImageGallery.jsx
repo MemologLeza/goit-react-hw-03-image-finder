@@ -9,7 +9,7 @@ const ImageGallery = ({ imgs, openModal }) => {
           key={img.id}
           webformatURL={img.webformatURL}
           largeImageURL={img.largeImageURL}
-          onClick={openModal} //on click open modals
+          onClick={openModal}
         />
       ))}
     </ul>
